@@ -3,12 +3,12 @@
   <script src="https://code.jquery.com/jquery-2.1.4.js"> </script>
   <script type="text/javascript">
     function addGame(game) {
-      var games = document.getElementById("games");
-      games.innerHTML = games.innerHTML + "<li onClick='removeGame(this)'>" + game + "</li>";
+      var games = $("#games");
+      var game = $("<li onClick='removeGame(this)'>" + game + "</li>");
+      games.append(game);
     }
     function removeGame(game) {
-      var games = document.getElementById("games");
-      games.removeChild(game);
+      $(game).remove();
     }
   </script>
 </head>
