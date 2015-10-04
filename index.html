@@ -2,13 +2,40 @@
 <head>
   <script src="https://code.jquery.com/jquery-2.1.4.js"> </script>
   <script type="text/javascript">
+
+    $(function () {
+      $.getJSON("http://127.0.0.1:5000/games", "", function (data) {
+        var games = $("#games");
+        for(var key in data) {
+          games.append("<li onClick='removeGame(this)' id="+key+">" + data[key] + "</li>");
+        }
+      })
+    })
+
     function addGame(game) {
-      var games = document.getElementById("games");
-      games.innerHTML = games.innerHTML + "<li onClick='removeGame(this)'>" + game + "</li>";
+      var games = $("#games");
+      var game = $("<li onClick='removeGame(this)'>" + game + "</li>");
+      $.post("http://127.0.0.1:5000/games", JSON.stringify({"data": game}), "json",
+      function (data) {
+        console.log(data);
+        game.attr("id") = data.id;
+      })
+      games.append(game);
     }
     function removeGame(game) {
-      var games = document.getElementById("games");
-      games.removeChild(game);
+      var id = game.attr("id");
+
+      if(id) {
+        $.post("http://127.0.0.1:5000/games", JSON.stringify({"data": game}), "json",
+        function (data) {
+          console.log(data);
+          game.attr("id") = data.id;
+        })
+      }
+
+      $(game).remove();
+
+      $.delete()
     }
   </script>
 </head>
@@ -17,8 +44,6 @@
   <h1>Games</h1>
 
   <ul id="games">
-    <li onClick='removeGame(this)'>Chess</li>
-    <li onClick='removeGame(this)'>Tic Tac Toe</li>
   </ul>
   <input type="test" onchange="addGame(this.value); this.value = ''"/>
 
