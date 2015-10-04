@@ -1,0 +1,25 @@
+<html>
+<head>
+  <script type="text/javascript">
+    function addGame(game) {
+      var games = document.getElementById("games");
+      games.innerHTML = games.innerHTML + "<li onClick='removeGame(this)'>" + game + "</li>";
+    }
+    function removeGame(game) {
+      var games = document.getElementById("games");
+      games.removeChild(game);
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Games</h1>
+
+  <ul id="games">
+    <li onClick='removeGame(this)'>Chess</li>
+    <li onClick='removeGame(this)'>Tic Tac Toe</li>
+  </ul>
+  <input type="test" onchange="addGame(this.value); this.value = ''"/>
+
+</body>
+</html>
