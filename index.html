@@ -3,39 +3,47 @@
   <script src="https://code.jquery.com/jquery-2.1.4.js"> </script>
   <script type="text/javascript">
 
+   var URL = "https://list-backend.herokuapp.com/games"
+
     $(function () {
-      $.getJSON("http://127.0.0.1:5000/games", "", function (data) {
+      $.getJSON(URL, "", function (data) {
         var games = $("#games");
         for(var key in data) {
+          console.log(data[key])
           games.append("<li onClick='removeGame(this)' id="+key+">" + data[key] + "</li>");
         }
       })
     })
 
-    function addGame(game) {
+    function addGame(gameName) {
       var games = $("#games");
-      var game = $("<li onClick='removeGame(this)'>" + game + "</li>");
-      $.post("http://127.0.0.1:5000/games", JSON.stringify({"data": game}), "json",
-      function (data) {
-        console.log(data);
-        game.attr("id") = data.id;
-      })
+      var game = $("<li onClick='removeGame(this)'>" + gameName + "</li>");
+      $.ajax({
+        type: "POST",
+        url: URL,
+        data: JSON.stringify({"data": gameName}),
+        success: function (data) {
+          console.log(data);
+          game.attr("id", data.id);
+        },
+        contentType: "application/json"
+      });
       games.append(game);
     }
     function removeGame(game) {
-      var id = game.attr("id");
+      var id = $(game).attr("id");
 
       if(id) {
-        $.post("http://127.0.0.1:5000/games", JSON.stringify({"data": game}), "json",
-        function (data) {
-          console.log(data);
-          game.attr("id") = data.id;
-        })
+        $.ajax({
+          type: "DELETE",
+          url: URL,
+          data: JSON.stringify({"id": parseInt(id)}),
+          success: function (data) {
+          },
+          contentType: "application/json"
+        });
+        $(game).remove();
       }
-
-      $(game).remove();
-
-      $.delete()
     }
   </script>
 </head>
