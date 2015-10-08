@@ -3,10 +3,12 @@
   <script src="https://code.jquery.com/jquery-2.1.4.js"> </script>
   <script type="text/javascript">
 
-   var URL = "http://159.203.66.40/games"
+   var URL = "http://list.isaacpark.me/games"
 
     $(function () {
-      $.getJSON(URL, "", function (data) {
+      console.log("ready");
+      $.get(URL, "", function (data) {
+        console.log("response");
         var games = $("#games");
         for(var key in data) {
           console.log(data[key])
